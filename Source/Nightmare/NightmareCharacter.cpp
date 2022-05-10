@@ -104,7 +104,7 @@ void ANightmareCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 void ANightmareCharacter::SwitchWeapon()
 {
-	uint8 bytes = ((uint8)CurrentWeapon + 1) % 3;
+	uint8 bytes = ((uint8)CurrentWeapon + 1) % 2;
 	CurrentWeapon = (EWeapon)bytes;
 	SetProjectile(CurrentWeapon);
 }
