@@ -164,7 +164,8 @@ void ANightmareCharacter::OnFire()
 
 			// spawn the projectile at the muzzle
 			World->SpawnActor<ANightmareProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			CurrentFuel -= GetProjectileCost();
+			if (CurrentWeapon != EWeapon::FuelGatherer)
+				CurrentFuel -= GetProjectileCost();
 			if (CurrentFuel > 1.0f) CurrentFuel = 1.0f;
 			if (CurrentFuel < 0.0f) CurrentFuel = 0.0f;
 			OnFired.Broadcast();
