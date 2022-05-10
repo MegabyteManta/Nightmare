@@ -40,4 +40,7 @@ void ANightmareProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActo
 
 		Destroy();
 	}
+	else {
+		Destroy();
+	}
 }
