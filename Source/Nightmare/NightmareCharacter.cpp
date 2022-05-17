@@ -195,7 +195,7 @@ void ANightmareCharacter::OnFire()
 
 	if (FireSound2 != nullptr && CurrentWeapon == EWeapon::Boost)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound2, GetActorLocation());
 	}
 
 	// try and play a firing animation if specified
