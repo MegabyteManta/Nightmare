@@ -49,6 +49,13 @@ ANightmareCharacter::ANightmareCharacter()
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
 	FP_Gun->SetupAttachment(RootComponent);
 
+	FP_Gun_2 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun_2"));
+	FP_Gun_2->SetOnlyOwnerSee(false);			// otherwise won't be visible in the multiplayer
+	FP_Gun_2->bCastDynamicShadow = false;
+	FP_Gun_2->CastShadow = false;
+	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
+	FP_Gun_2->SetupAttachment(RootComponent);
+
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
 	FP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
@@ -67,6 +74,8 @@ void ANightmareCharacter::BeginPlay()
 
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
 	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, true), TEXT("GripPoint"));
+	FP_Gun_2->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, true), TEXT("GripPoint"));
+
 
 	SetProjectile(CurrentWeapon);
 }
@@ -115,9 +124,15 @@ void ANightmareCharacter::SetProjectile(TEnumAsByte<EWeapon> NewProjectile)
 	{
 	case FuelGatherer:
 		ProjectileClass = FuelGathererClass;
+		//FP_Gun->SetSkeletalMesh(FuelGathererMesh);
+		FP_Gun->SetVisibility(true);
+		FP_Gun_2->SetVisibility(false);
 		break;
 	case Boost:
 		ProjectileClass = BoostClass;
+		//FP_Gun->SetSkeletalMesh(JumpBoostMesh);
+		FP_Gun->SetVisibility(false);
+		FP_Gun_2->SetVisibility(true);
 		break;
 	case MusicBox:
 		ProjectileClass = MusicBoxClass;
@@ -173,7 +188,12 @@ void ANightmareCharacter::OnFire()
 	}
 
 	// try and play the sound if specified
-	if (FireSound != nullptr)
+	if (FireSound != nullptr && CurrentWeapon == EWeapon::FuelGatherer)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	}
+
+	if (FireSound2 != nullptr && CurrentWeapon == EWeapon::Boost)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}

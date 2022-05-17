@@ -8,6 +8,7 @@
 
 class UInputComponent;
 class USkeletalMeshComponent;
+class USkeletalMesh;
 class USceneComponent;
 class UCameraComponent;
 class UMotionControllerComponent;
@@ -37,6 +38,10 @@ class ANightmareCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USkeletalMeshComponent* FP_Gun;
 
+	/** Gun mesh: 1st person view (seen only by self) */
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		USkeletalMeshComponent* FP_Gun_2;
+
 	/** Location on gun mesh where projectiles should spawn. */
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USceneComponent* FP_MuzzleLocation;
@@ -53,6 +58,13 @@ protected:
 	virtual void BeginPlay();
 
 public:
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		//USkeletalMesh* FuelGathererMesh;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		//USkeletalMesh* JumpBoostMesh;
+
 	UPROPERTY(BlueprintAssignable, Category = "Projectile")
 	FOnFiredDelegate OnFired;
 
@@ -93,6 +105,10 @@ public:
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	USoundBase* FireSound;
+
+	/** Sound to play each time we fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* FireSound2;
 
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
